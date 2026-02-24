@@ -1,0 +1,15 @@
+{
+  "name": "Monke Canyon VR",
+  "short_name": "MonkeVR",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#87CEEB",
+  "theme_color": "#2d5a27",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/614/614131.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
