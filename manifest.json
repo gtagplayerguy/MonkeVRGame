@@ -1,9 +1,8 @@
 {
-  "name": "Monke Fangame",
+  "name": "Monke Canyon VR",
   "short_name": "MonkeVR",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
-  "orientation": "landscape",
-  "theme_color": "#8B4513",
-  "background_color": "#228B22"
+  "background_color": "#000000",
+  "theme_color": "#2d5a27"
 }
