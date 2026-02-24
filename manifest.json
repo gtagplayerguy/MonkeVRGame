@@ -1,6 +1,7 @@
 {
   "name": "Monke Canyon VR",
   "short_name": "MonkeVR",
+  "description": "A Gorilla Tag style fan game set in a 3D canyon.",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#87CEEB",
@@ -9,7 +10,8 @@
     {
       "src": "https://cdn-icons-png.flaticon.com/512/614/614131.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
