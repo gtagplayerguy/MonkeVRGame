@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gorilla Canyon - No White Screens</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+    
+    <script>
+      // MONKE PHYSICS
+      AFRAME.registerComponent('monke-logic', {
+        init: function () {
+          this.el.addEventListener('collide', (e) => {
+            const velocity = this.el.getAttribute('velocity') || {x: 0, y: 0, z: 0};
+            if (velocity.y < -0.5) {
+              const rig = document.querySelector('#rig');
+              rig.setAttribute('velocity', {
+                x: -velocity.x * 1.8,
+                y: -velocity.y * 2.8, 
+                z: -velocity.z * 1.8
+              });
+            }
+          });
+        }
+      });
+
+      // THE MAP GENERATOR (Using Internal Colors/Shaders)
+      AFRAME.registerComponent('pro-canyon', {
+        init: function () {
+          const scene = this.el;
+          
+          // 1. THE FLOOR (Dark Green with a Grid for texture)
+          let floor = document.createElement('a-plane');
+          floor.setAttribute('static-body', '');
+          floor.setAttribute('rotation', '-90 0 0');
+          floor.setAttribute('width', '100');
+          floor.setAttribute('height', '100');
+          // This creates a "checkerboard" grass look without an external image
+          floor.setAttribute('material', 'color: #2d5a27; roughness: 1; metalness: 0');
+          scene.appendChild(floor);
+
+          // 2. THE CANYON WALLS (Dark Gray Rock)
+          const wallCoords = [
+            {pos: "0 10 -50", rot: "0 0 0"},
+            {pos: "0 10 50", rot: "0 180 0"},
+            {pos: "-50 10 0", rot: "0 90 0"},
+            {pos: "50 10 0", rot: "0 -90 0"}
+          ];
+
+          wallCoords.forEach(w => {
+            let wall = document.createElement('a-box');
+            wall.setAttribute('static-body', '');
+            wall.setAttribute('position', w.pos);
+            wall.setAttribute('rotation', w.rot);
+            wall.setAttribute('width', '100');
+            wall.setAttribute('height', '25');
+            wall.setAttribute('depth', '5');
+            // Gray rock color with high roughness so it's not shiny
+            wall.setAttribute('material', 'color: #444444; roughness: 1');
+            scene.appendChild(wall);
+          });
+
+          // 3. THE TREES
+          for(let i=0; i < 20; i++) {
+            let x = (Math.random() - 0.5) * 80;
+            let z = (Math.random() - 0.5) * 80;
+            
+            let trunk = document.createElement('a-cylinder');
+            trunk.setAttribute('static-body', '');
+            trunk.setAttribute('position', `${x} 4 ${z}`);
+            trunk.setAttribute('radius', '0.4');
+            trunk.setAttribute('height', '8');
+            trunk.setAttribute('material', 'color: #5C4033; roughness: 1');
+            
+            let leaves = document.createElement('a-cone');
+            leaves.setAttribute('position', `0 4.5 0`);
+            leaves.setAttribute('radius-bottom', '3');
+            leaves.setAttribute('height', '6');
+            leaves.setAttribute('material', 'color: #1b3d16; roughness: 1');
+            
+            trunk.appendChild(leaves);
+            scene.appendChild(trunk);
+          }
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene pro-canyon physics="gravity: -9.8; debug: false">
+      <a-sky color="#87CEEB"></a-sky>
+
+      <a-entity light="type: ambient; color: #BBB; intensity: 0.8"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.6" position="-0.5 1 1"></a-entity>
+
+      <a-entity id="rig" movement-controls="fly: false" position="0 0 0" kinematic-body>
+        <a-entity camera look-controls position="0 1.6 0"></a-entity>
+        
+        <a-entity id="leftHand" 
+                  hand-controls="hand: left; handModelStyle: lowPoly; color: #8B4513"
+                  static-body="shape: sphere; sphereRadius: 0.2"
+                  monke-logic>
+        </a-entity>
+
+        <a-entity id="rightHand" 
+                  hand-controls="hand: right; handModelStyle: lowPoly; color: #8B4513"
+                  static-body="shape: sphere; sphereRadius: 0.2"
+                  monke-logic>
+        </a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
