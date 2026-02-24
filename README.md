@@ -1,2 +1,0 @@
-# MonkeVRGame
-Vr monke game
