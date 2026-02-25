@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Monke Canyon Multiplayer</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.slim.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.11.0/dist/networked-aframe.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+  </head>
+  <body>
+    <a-scene networked-scene="room: monke_canyon_1; debug: true; adapter: socketio; serverURL: https://naframe.glitch.me/;">
+      
+      <a-assets>
+        <template id="avatar-template">
+          <a-entity class="avatar">
+            <a-sphere class="head" color="#5f3a1a" scale="0.3 0.3 0.3"></a-sphere>
+          </a-entity>
+        </template>
+      </a-assets>
+
+      <a-sky color="#87CEEB"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="50" height="50" color="#2d5a27"></a-plane>
+      
+      <a-box position="0 5 -25" width="50" height="10" depth="1" color="#4b3621"></a-box>
+      <a-box position="0 5 25" width="50" height="10" depth="1" color="#4b3621"></a-box>
+      <a-box position="-25 5 0" rotation="0 90 0" width="50" height="10" depth="1" color="#4b3621"></a-box>
+      <a-box position="25 5 0" rotation="0 90 0" width="50" height="10" depth="1" color="#4b3621"></a-box>
+
+      <a-entity id="player" 
+                networked="template:#avatar-template;attachTemplateToLocal:false;" 
+                camera wasd-controls look-controls position="0 1.6 0">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>
